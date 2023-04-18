@@ -10,7 +10,7 @@ function AuthorCard({ bookObj, onUpdate }) {
   // SO WE PASS THE FUNCTION FROM THE PARENT THAT GETS THE BOOKS
   const deleteThisAuthor = () => {
     if (window.confirm(`Delete ${bookObj.title}?`)) {
-      deleteBook(bookObj.firebaseKey).then(() => onUpdate());
+      deleteSingleAuthor(bookObj.firebaseKey).then(() => onUpdate());
     }
   };
 
@@ -28,7 +28,7 @@ function AuthorCard({ bookObj, onUpdate }) {
         <Link href={`/book/edit/${bookObj.firebaseKey}`} passHref>
           <Button variant="info">EDIT</Button>
         </Link>
-        <Button variant="danger" onClick={deleteThisBook} className="m-2">
+        <Button variant="danger" onClick={deleteThisAuthor} className="m-2">
           DELETE
         </Button>
       </Card.Body>
