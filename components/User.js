@@ -23,8 +23,21 @@ export default function UserCard() {
 UserCard.propTypes = {
   userObj: PropTypes.shape({
     image: PropTypes.string,
-    Name: PropTypes.string,
-    Email: PropTypes.string,
-    firebaseKey: PropTypes.string,
-  }).isRequired,
+    name: PropTypes.string,
+    email: PropTypes.string,
+    metadata: PropTypes.shape({
+      lastSignInTime: PropTypes.string,
+    }),
+  }),
+};
+
+UserCard.defaultProps = {
+  userObj: {
+    image: 'No Image',
+    Name: 'No Name',
+    Email: 'No Email',
+    metadata: {
+      lastSignInTime: 'No Login Time',
+    },
+  },
 };
