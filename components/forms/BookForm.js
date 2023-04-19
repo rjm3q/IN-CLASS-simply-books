@@ -8,6 +8,8 @@ import { useAuth } from '../../utils/context/authContext';
 import { getAuthors } from '../../api/authorData';
 import { createBook, updateBook } from '../../api/bookData';
 
+// used as a global default state to start clean during refreshes
+// each item will functions as a key in the form controls, as the name
 const initialState = {
   description: '',
   image: '',
