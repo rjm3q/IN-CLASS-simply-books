@@ -1,45 +1,78 @@
-import axios from 'axios';
 import { clientCredentials } from '../utils/client';
 // API CALLS FOR BOOKS
 
-const dbUrl = clientCredentials.databaseURL;
+const endpoint = clientCredentials.databaseURL;
 
+// TODO: GET BOOKS
 const getBooks = (uid) => new Promise((resolve, reject) => {
-  axios.get(`${dbUrl}/books.json?orderBy="uid"&equalTo="${uid}"`)
-    .then((response) => {
-      if (response.data) {
-        resolve(Object.values(response.data));
+  fetch(`${endpoint}/books.json?orderBy="uid"&equalTo=${uid}`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      if (data) {
+        resolve(Object.values(data));
       } else {
         resolve([]);
       }
     })
-    .catch((error) => reject(error));
+    .catch(reject);
 });
 
+// TODO: DELETE BOOK
 const deleteBook = (firebaseKey) => new Promise((resolve, reject) => {
-  axios.delete(`${dbUrl}/books/${firebaseKey}.json`)
-    .then(() => resolve('deleted'))
-    .catch((error) => reject(error));
+  fetch(`${endpoint}/books/${firebaseKey}.json`, {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+    }, // you technically do not need the options object for GET requests, but using it here for consistency
+  })
+    .then((response) => response.json())
+    .then((data) => resolve(Object.values(data)))
+    .catch(reject);
 });
 
+// TODO: GET SINGLE BOOK
 const getSingleBook = (firebaseKey) => new Promise((resolve, reject) => {
-  axios.get(`${dbUrl}/books/${firebaseKey}.json`)
-    .then((response) => resolve(response.data))
-    .catch((error) => reject(error));
+  fetch(`${endpoint}/books/${firebaseKey}.json`, {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+    }, // you technically do not need the options object for GET requests, but using it here for consistency
+  })
+    .then((response) => response.json())
+    .then((data) => resolve(data)) // will resolve a single object
+    .catch(reject);
 });
 
-const createBook = (bookObj) => new Promise((resolve, reject) => {
-  axios.post(`${dbUrl}/books.json`, bookObj)
-    .then((response) => {
-      const payload = { firebaseKey: response.data.name };
-      axios.patch(`${dbUrl}/books/${response.data.name}.json`, payload)
-        .then(resolve);
-    }).catch(reject);
+// TODO: CREATE BOOK
+const createBook = (payload) => new Promise((resolve, reject) => {
+  fetch(`${endpoint}/books.json`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    }, // you technically do not need the options object for GET requests, but using it here for consistency
+    body: JSON.stringify(payload),
+  })
+    .then((response) => response.json())
+    .then((data) => resolve(data))
+    .catch(reject);
 });
 
-const updateBook = (bookObj) => new Promise((resolve, reject) => {
-  axios.patch(`${dbUrl}/books/${bookObj.firebaseKey}.json`, bookObj)
-    .then(resolve)
+// TODO: UPDATE BOOK
+const updateBook = (payload) => new Promise((resolve, reject) => {
+  fetch(`${endpoint}/books/${payload.firebaseKey}.json`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    }, // you technically do not need the options object for GET requests, but using it here for consistency
+    body: JSON.stringify(payload),
+  })
+    .then((response) => response.json())
+    .then((data) => resolve(data))
     .catch(reject);
 });
 
