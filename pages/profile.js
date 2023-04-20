@@ -8,7 +8,6 @@ export default function Profile() {
 
   return (
     <>
-      <div>profile here</div>;
       <UserCard user={user} />
       <Signout />
     </>
