@@ -18,12 +18,13 @@ const initialState = {
   title: '',
 };
 
-function BookForm({ obj }) {
+function AuthorForm({ obj }) {
   const [formInput, setFormInput] = useState(initialState);
   const [authors, setAuthors] = useState([]);
   const router = useRouter();
   const { user } = useAuth();
 
+  // if user changes, this updates the user data
   useEffect(() => {
     getAuthors(user.uid).then(setAuthors);
 
@@ -45,11 +46,8 @@ function BookForm({ obj }) {
         .then(() => router.push(`/book/${obj.firebaseKey}`));
     } else {
       const payload = { ...formInput, uid: user.uid };
-      createBook(payload).then(({ name }) => {
-        const patchPayload = { firebaseKey: name };
-        updateBook(patchPayload).then(() => {
-          router.push('/');
-        });
+      createBook(payload).then(() => {
+        router.push('/');
       });
     }
   };
@@ -58,7 +56,7 @@ function BookForm({ obj }) {
     <Form onSubmit={handleSubmit}>
       <h2 className="text-white mt-5">{obj.firebaseKey ? 'Update' : 'Create'} Book</h2>
 
-      {/* TITLE INPUT  */}
+      {/* Author Name input  */}
       <FloatingLabel controlId="floatingInput1" label="Book Title" className="mb-3">
         <Form.Control
           type="text"
@@ -148,12 +146,12 @@ function BookForm({ obj }) {
       />
 
       {/* SUBMIT BUTTON  */}
-      <Button type="submit">{obj.firebaseKey ? 'Update' : 'Create'} Book</Button>
+      <Button type="submit">{obj.firebaseKey ? 'Update' : 'Create'} Author</Button>
     </Form>
   );
 }
 
-BookForm.propTypes = {
+AuthorForm.propTypes = {
   obj: PropTypes.shape({
     description: PropTypes.string,
     image: PropTypes.string,
@@ -165,8 +163,8 @@ BookForm.propTypes = {
   }),
 };
 
-BookForm.defaultProps = {
+AuthorForm.defaultProps = {
   obj: initialState,
 };
 
-export default BookForm;
+export default AuthorForm;

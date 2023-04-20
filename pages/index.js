@@ -19,6 +19,7 @@ function Home() {
   };
 
   // TODO: make the call to the API to get all the books on component render
+  // this is a react hook, used to interact with things outside the application
   useEffect(() => {
     getAllTheBooks();
   }, []);
