@@ -9,23 +9,24 @@ function AuthorCard({ authObj, onUpdate }) {
   // FOR DELETE, WE NEED TO REMOVE THE BOOK AND HAVE THE VIEW RERENDER,
   // SO WE PASS THE FUNCTION FROM THE PARENT THAT GETS THE BOOKS
   const deleteThisAuthor = () => {
-    if (window.confirm(`Delete ${authObj.title}?`)) {
+    if (window.confirm(`Delete ${authObj.first_name}?`)) {
       deleteSingleAuthor(authObj.firebaseKey).then(() => onUpdate());
     }
   };
 
   return (
     <Card style={{ width: '18rem', margin: '10px' }}>
-      <Card.Img variant="top" src={authObj.image} alt={authObj.title} style={{ height: '400px' }} />
+      {/* <Card.Img variant="top" src={authObj.image} alt={authObj.title} style={{ height: '400px' }} /> */}
       <Card.Body>
-        <Card.Title>{authObj.title}</Card.Title>
-        <p className="card-text bold">{authObj.sale && <span>SALE<br /></span> } ${authObj.price}</p>
+        <Card.Title>{authObj.first_name} {authObj.last_name}</Card.Title>
+        <p className="card-text bold">{authObj.favorite && <span>Favorite<br /></span> } {authObj.favorite}</p>
+        <p className="card-text bold"> {authObj.email}</p>
         {/* DYNAMIC LINK TO VIEW THE BOOK DETAILS  */}
-        <Link href={`/book/${authObj.firebaseKey}`} passHref>
+        <Link href={`/author/${authObj.firebaseKey}`} passHref>
           <Button variant="primary" className="m-2">VIEW</Button>
         </Link>
         {/* DYNAMIC LINK TO EDIT THE BOOK DETAILS  */}
-        <Link href={`/book/edit/${authObj.firebaseKey}`} passHref>
+        <Link href={`/author/edit/${authObj.firebaseKey}`} passHref>
           <Button variant="info">EDIT</Button>
         </Link>
         <Button variant="danger" onClick={deleteThisAuthor} className="m-2">
@@ -38,10 +39,10 @@ function AuthorCard({ authObj, onUpdate }) {
 
 AuthorCard.propTypes = {
   authObj: PropTypes.shape({
-    image: PropTypes.string,
-    title: PropTypes.string,
-    sale: PropTypes.bool,
-    price: PropTypes.string,
+    first_name: PropTypes.string,
+    last_name: PropTypes.string,
+    favorite: PropTypes.bool,
+    email: PropTypes.string,
     firebaseKey: PropTypes.string,
   }).isRequired,
   onUpdate: PropTypes.func.isRequired,
