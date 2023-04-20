@@ -42,7 +42,8 @@ function BookForm({ obj }) {
     e.preventDefault();
     if (obj.firebaseKey) {
       updateBook(formInput)
-        .then(() => router.push(`/book/${obj.firebaseKey}`));
+      // change from book to books on THU
+        .then(() => router.push(`/books/${obj.firebaseKey}`));
     } else {
       const payload = { ...formInput, uid: user.uid };
       createBook(payload).then(({ name }) => {
